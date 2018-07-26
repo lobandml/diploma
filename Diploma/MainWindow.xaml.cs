@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Accord;
 
 namespace Diploma
 {
@@ -23,6 +24,8 @@ namespace Diploma
 		public MainWindow()
 		{
 			InitializeComponent();
+			Accord.Statistics.Distributions.Univariate.GammaDistribution gd1 = new Accord.Statistics.Distributions.Univariate.GammaDistribution(1,1);
+			double dd1 = gd1.Generate();
 		}
 	}
 }
