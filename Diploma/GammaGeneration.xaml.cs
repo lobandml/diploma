@@ -10,28 +10,23 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Accord;
 
 namespace Diploma
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for GammaGeneration.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class GammaGeneration : Window
 	{
-		public MainWindow()
+		public GammaGeneration()
 		{
 			InitializeComponent();
-			Accord.Statistics.Distributions.Univariate.GammaDistribution gd1 = new Accord.Statistics.Distributions.Univariate.GammaDistribution(1,1);
-			double dd1 = gd1.Generate();
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
+		private void Ribbon_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			var gg = new GammaGeneration();
-			gg.Show();
+
 		}
 	}
 }
