@@ -6,8 +6,22 @@
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="526">
-    <Grid>
-		<Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="103,64,0,0" VerticalAlignment="Top" Width="75" Click="button_Click"/>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="116"/>
+			<RowDefinition Height="205*"/>
+		</Grid.RowDefinitions>
+		<Ribbon Height="Auto" Grid.Row="0" Margin="0,0,0,6">
+			<Ribbon.ApplicationMenu>
+				<RibbonApplicationMenu>
+					<RibbonButton Label="Загрузить распределение"></RibbonButton>
+				</RibbonApplicationMenu>
+			</Ribbon.ApplicationMenu>
+
+			<RibbonTab Header="hh"></RibbonTab>
+			<RibbonTab Header="hh2"></RibbonTab>
+		</Ribbon>
+		<Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="22,57,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="22" Grid.Row="1"/>
 
 	</Grid>
 </Window>
