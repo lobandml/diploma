@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
-        Title="GammaGeneration" Height="500" Width="500">
+        Title="GammaGeneration" Height="425" Width="500">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="100*"/>
-			<RowDefinition Height="341*"/>
+			<RowDefinition Height="28"/>
+			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
-        <Ribbon Height="Auto" Margin="0,-24,-0.4,83.4" SelectionChanged="Ribbon_SelectionChanged" Grid.Row="0">
+        <Ribbon Height="Auto" Margin="0,-24,-0.4,0" SelectionChanged="Ribbon_SelectionChanged" Grid.Row="0">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonButton Label="Сохранить распределение" Click="SaveGenButtonHandler"></RibbonButton>
@@ -20,7 +20,8 @@
             </Ribbon.ApplicationMenu>
         </Ribbon>
         <Button x:Name="button" Content="Генерировать" HorizontalAlignment="Left" Margin="69,151.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="112" Height="31" Click="button_Click"/>
-		<Label x:Name="label" Content="theta" HorizontalAlignment="Left" Margin="19,8.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Button x:Name="graphButton" Content="График" HorizontalAlignment="Left" Margin="69,188,0,0" Grid.Row="1" VerticalAlignment="Top" Width="112" Height="31" Click="graphButton_Click"/>
+        <Label x:Name="label" Content="theta" HorizontalAlignment="Left" Margin="19,8.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 		<Label x:Name="label1" Content="K" HorizontalAlignment="Left" Margin="19,56.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 		<TextBox x:Name="param1tb" HorizontalAlignment="Left" Height="23" Margin="91,8.6,0,0" Grid.Row="1" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120"/>
 		<TextBox x:Name="param2tb" HorizontalAlignment="Left" Height="23" Margin="91,56.6,0,0" Grid.Row="1" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120"/>

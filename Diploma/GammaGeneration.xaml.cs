@@ -90,5 +90,10 @@ namespace Diploma
         {
             OpenGenerated();
         }
+
+        private void graphButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
