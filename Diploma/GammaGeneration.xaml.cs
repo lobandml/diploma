@@ -41,18 +41,18 @@ namespace Diploma
 			Accord.Statistics.Distributions.Univariate.GammaDistribution gd1 = new Accord.Statistics.Distributions.Univariate.GammaDistribution(theta_param, k);
 			double[] dd1 = gd1.Generate(count);
 			currGammaArray = dd1;
-			UpdateList(currGammaArray);
+			UpdateList(currentDis);
             DistributionInstance dis = new DistributionInstance(currGammaArray);
             dis.DParams.Add("theta", theta_param);
             dis.DParams.Add("k", k);
             currentDis = dis;
         }
-		private void UpdateList(double[] input)
+		private void UpdateList(DistributionInstance input)
 		{
 			listBox.Items.Clear();
-			for (int i=0;i<input.Length;i++)
+			for (int i=0;i<input.arr.Count;i++)
 			{
-				listBox.Items.Add(input[i]);
+				listBox.Items.Add(input.arr[i]);
 			}
 		}
         private void SaveGenerated()
@@ -79,6 +79,7 @@ namespace Diploma
                 string str = File.ReadAllText(ofd1.FileName);
                 currentDis.InitXml(str);
             }
+            UpdateList(currentDis);
         }
 
         private void SaveGenButtonHandler(object sender, RoutedEventArgs e)

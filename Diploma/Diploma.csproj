@@ -75,6 +75,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DistributionInstance.cs" />
+    <Compile Include="GammaDistribution.cs" />
+    <Compile Include="SPRT.cs" />
     <Compile Include="XMLOperations.cs" />
     <Page Include="GammaGeneration.xaml">
       <SubType>Designer</SubType>

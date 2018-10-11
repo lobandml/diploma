@@ -28,10 +28,10 @@ namespace Diploma
 			double dd1 = gd1.Generate();
 		}
 
-		private void button_Click(object sender, RoutedEventArgs e)
-		{
-			var gg = new GammaGeneration();
-			gg.Show();
-		}
-	}
+        private void OpenGeneratorHandler(object sender, RoutedEventArgs e)
+        {
+            var gg = new GammaGeneration();
+            gg.Show();
+        }
+    }
 }

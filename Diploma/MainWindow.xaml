@@ -5,23 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="526">
+        Title="MainWindow" Height="700" Width="600">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="116"/>
-			<RowDefinition Height="205*"/>
+			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Ribbon Height="Auto" Grid.Row="0" Margin="0,0,0,6">
 			<Ribbon.ApplicationMenu>
 				<RibbonApplicationMenu>
 					<RibbonButton Label="Загрузить распределение"></RibbonButton>
+                    <RibbonButton Label="Открыть генератор распределений" Click="OpenGeneratorHandler"></RibbonButton>
 				</RibbonApplicationMenu>
 			</Ribbon.ApplicationMenu>
 
 			<RibbonTab Header="hh"></RibbonTab>
 			<RibbonTab Header="hh2"></RibbonTab>
 		</Ribbon>
-		<Button x:Name="button" Content="Button" HorizontalAlignment="Left" Margin="22,57,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="22" Grid.Row="1"/>
+        <TabControl x:Name="tabControl"   Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TabItem Header="Классический анализ">
+                <Grid Background="#FFE5E5E5">
+                    <TabControl x:Name="tabControl1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch">
+                        <TabItem Header="Критерий Неймана-Пирсона">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                        <TabItem Header="Байесовский критерий">
+                            <Grid Background="#FFE5E5E5"/>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Последовательный анализ">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
 
-	</Grid>
+
+    </Grid>
 </Window>
