@@ -8,9 +8,14 @@ namespace Diploma
 {
     static class SPRT
     {
-        static double GammaLikelihood()
+        public static double GammaLikelihood(List<double> input, double k, double theta)
         {
-
+            double result = 1;
+            for (int i=0; i<input.Count;i++)
+            {
+                result *= GammaDistribution.calcDens(k, theta, input[i]);
+            }
+            return result;
         }
     }
 }

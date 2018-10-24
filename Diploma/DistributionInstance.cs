@@ -61,7 +61,7 @@ namespace Diploma
                 var parElement = (XmlElement)SParams[i];
                 DParams.Add(parElement.GetAttribute("name"), Double.Parse(parElement.InnerText, CultureInfo.InvariantCulture));
             }
-            for (int i = 0; i < SParams.Count; i++)
+            for (int i = 0; i < SItems.Count; i++)
             {
                 var itemElement = (XmlElement)SItems[i];
                 arr.Add(Double.Parse(itemElement.InnerText, CultureInfo.InvariantCulture));
