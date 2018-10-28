@@ -5,23 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="600">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="116"/>
-			<RowDefinition Height="*"/>
-		</Grid.RowDefinitions>
-		<Ribbon Height="Auto" Grid.Row="0" Margin="0,0,0,6">
-			<Ribbon.ApplicationMenu>
-				<RibbonApplicationMenu>
-					<RibbonButton Label="Загрузить распределение" Click="LoadGDFromXmlHadler"></RibbonButton>
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="MainWindow" Height="700" Width="737.6">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="116"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Ribbon Height="Auto" Grid.Row="0" Margin="0,0,0,6">
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu>
+                    <RibbonButton Label="Загрузить распределение" Click="LoadGDFromXmlHadler"></RibbonButton>
                     <RibbonButton Label="Открыть генератор распределений" Click="OpenGeneratorHandler"></RibbonButton>
-				</RibbonApplicationMenu>
-			</Ribbon.ApplicationMenu>
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
 
-			<RibbonTab Header="hh"></RibbonTab>
-			<RibbonTab Header="hh2"></RibbonTab>
-		</Ribbon>
+            <RibbonTab Header="hh"></RibbonTab>
+            <RibbonTab Header="hh2"></RibbonTab>
+        </Ribbon>
         <TabControl x:Name="tabControl"   Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="Классический анализ">
                 <Grid Background="#FFE5E5E5">
@@ -36,7 +37,32 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Последовательный анализ">
-                <Grid Background="#FFE5E5E5"/>
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="34" Margin="61,127,0,0" VerticalAlignment="Top" Width="60" Click="button_Click"/>
+                    <lvc:CartesianChart Series="{Binding SCollection}" LegendLocation="Right" Grid.Column="2">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis>
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator IsEnabled="true" Step="1"></lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis>
+                                <lvc:Axis.Separator>
+                                    <lvc:Separator IsEnabled="true" Step="1"></lvc:Separator>
+                                </lvc:Axis.Separator>
+                            </lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="45,48,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="45,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="textBox_Copy_TextChanged"/>
+                    <Button x:Name="button_Copy" Content="K" HorizontalAlignment="Left" Height="34" Margin="61,175,0,0" VerticalAlignment="Top" Width="60" Click="checkK_Click"/>
+                </Grid>
             </TabItem>
         </TabControl>
 
