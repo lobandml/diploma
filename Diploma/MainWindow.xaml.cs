@@ -119,9 +119,9 @@ namespace Diploma
                 
             }
 
-            var topPointsLine = AddNewSeriesCollection("брак.значение", Brushes.Red);
-            var botPointsLine = AddNewSeriesCollection("пр-е значение", Brushes.Blue);
-            var checkingsPointsLine = AddNewSeriesCollection("наблюдения", Brushes.Purple);
+            var topPointsLine = AddNewSeriesCollection("брак.значення", Brushes.Red);
+            var botPointsLine = AddNewSeriesCollection("пр-е значення", Brushes.Blue);
+            var checkingsPointsLine = AddNewSeriesCollection("спостереження", Brushes.Purple);
             DataContext = this;
 
             for (int i = 0; i < currentDis.arr.Count; i++)
@@ -145,14 +145,14 @@ namespace Diploma
 
                 if (likehoodDivision < c0)
                 {
-                    MessageBox.Show("h0 - " + i.ToString());
-                    break;
+                    //MessageBox.Show("h0 - " + i.ToString());
+                    //break;
                 }
 
                 if (likehoodDivision > c1)
                 {
-                    MessageBox.Show("h1 - " + i.ToString());
-                    break;
+                    //MessageBox.Show("h1 - " + i.ToString());
+                    //break;
                 }
             }
         }

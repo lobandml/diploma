@@ -69,16 +69,14 @@ namespace Diploma
         public static double TopMarginKnownTheta(double k0, double k1, double theta, double alpha, double beta, double n)
         {
             double result = 0;
-            result = ((1 - beta) / alpha) * Math.Pow(theta, k1) * Math.Pow(Accord.Math.Gamma.Function(k1), n) / (Math.Pow(theta, k0) * Math.Pow(Accord.Math.Gamma.Function(k0), n));
-            result = Math.Log(result);
+            result = Math.Log((1 - beta) / alpha) + n * k1 * Math.Log(theta) - n * k0 * Math.Log(theta) + n * Math.Log(Accord.Math.Gamma.Function(k1)) - n * Math.Log(Accord.Math.Gamma.Function(k0));
             result = result / (k1 - k0);
             return result;
         }
         public static double LowMarginKnownTheta(double k0, double k1, double theta, double alpha, double beta, double n)
         {
             double result = 0;
-            result = result = beta / (1 - alpha) * Math.Pow(theta, k1) * Math.Pow(Accord.Math.Gamma.Function(k1), n) / (Math.Pow(theta, k0) / Math.Pow(Accord.Math.Gamma.Function(k0), n));
-            result = Math.Log(result);
+            result = Math.Log((beta) / (1-alpha)) + n * k1 * Math.Log(theta) - n * k0 * Math.Log(theta) + n * Math.Log(Accord.Math.Gamma.Function(k1)) - n * Math.Log(Accord.Math.Gamma.Function(k0));
             result = result / (k1 - k0);
             return result;
         }

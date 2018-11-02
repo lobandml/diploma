@@ -42,7 +42,7 @@
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="button" Content="Button" HorizontalAlignment="Left" Height="34" Margin="61,127,0,0" VerticalAlignment="Top" Width="60" Click="button_Click"/>
+                    <Button x:Name="button" Content="theta" HorizontalAlignment="Left" Height="34" Margin="61,127,0,0" VerticalAlignment="Top" Width="60" Click="button_Click"/>
                     <lvc:CartesianChart Series="{Binding SCollection}" LegendLocation="Right" Grid.Column="2">
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis>
@@ -59,8 +59,8 @@
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
                     </lvc:CartesianChart>
-                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="45,48,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged"/>
-                    <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="45,86,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="textBox_Copy_TextChanged"/>
+                    <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="45,48,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged"/>
+                    <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="45,86,0,0" TextWrapping="Wrap" Text="1.2" VerticalAlignment="Top" Width="120" TextChanged="textBox_Copy_TextChanged"/>
                     <Button x:Name="button_Copy" Content="K" HorizontalAlignment="Left" Height="34" Margin="61,175,0,0" VerticalAlignment="Top" Width="60" Click="checkK_Click"/>
                 </Grid>
             </TabItem>
