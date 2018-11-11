@@ -20,8 +20,15 @@
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
 
-            <RibbonTab Header="hh"></RibbonTab>
-            <RibbonTab Header="hh2"></RibbonTab>
+            <RibbonTab Header="hh">
+                <RibbonGroup Header="File">
+                    <RibbonButton Label="Останній графік" Click="OpenLastChart">
+                    </RibbonButton>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="hh2">
+                
+            </RibbonTab>
         </Ribbon>
         <TabControl x:Name="tabControl"   Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <TabItem Header="Классический анализ">

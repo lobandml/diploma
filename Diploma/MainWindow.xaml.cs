@@ -228,5 +228,21 @@ namespace Diploma
         {
             test2K();
         }
+
+        private void OpenLastChart(object sender, RoutedEventArgs e)
+        {
+            double par1 = double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture);
+            double par2 = double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture);
+            double setupK = currentDis.DParams["k"];
+            List<System.Windows.Point> lp1 = new List<System.Windows.Point>();
+            List<System.Windows.Point> lp2 = new List<System.Windows.Point>();
+            for (double i = 0; i < 5; i += 0.05)
+            {
+               lp1.Add(new System.Windows.Point(i, GammaDistribution.calcDens(setupK, par1, i)));
+               lp2.Add(new System.Windows.Point(i, GammaDistribution.calcDens(setupK, par2, i)));
+            }
+            DensComparer dc = new DensComparer("1", lp1, "2", lp2);
+            dc.Show();
+        }
     }
 }
