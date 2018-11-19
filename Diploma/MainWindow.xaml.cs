@@ -244,5 +244,25 @@ namespace Diploma
             DensComparer dc = new DensComparer("1", lp1, "2", lp2);
             dc.Show();
         }
+
+        private void k_DoNTimes(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void theta_DoNTimes(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void theta_DoMain(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void k_DoMain(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        Title="MainWindow" Height="700" Width="737.6">
+        Title="MainWindow" Height="700" Width="1017.6">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="116"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Ribbon Height="Auto" Grid.Row="0" Margin="0,0,0,6">
+        <Ribbon Grid.Row="0" VerticalAlignment="Top">
             <Ribbon.ApplicationMenu>
                 <RibbonApplicationMenu>
                     <RibbonButton Label="Загрузить распределение" Click="LoadGDFromXmlHadler"></RibbonButton>
@@ -20,37 +20,135 @@
                 </RibbonApplicationMenu>
             </Ribbon.ApplicationMenu>
 
-            <RibbonTab Header="hh">
-                <RibbonGroup Header="File">
-                    <RibbonButton Label="Останній графік" Click="OpenLastChart">
+            <RibbonTab Header="Відомий параметр k">
+                <RibbonGroup Header="">
+                    <RibbonButton Label="Графік щільностей" Click="OpenLastChart">
                     </RibbonButton>
                 </RibbonGroup>
+                <RibbonGroup Header="Параметри" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <RibbonTextBox Name="k_theta1InputTextBox" Label="θ1" Grid.Column="0"  Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="k_theta2InputTextBox" Label="θ2" Grid.Column="0" Grid.Row="1" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="k_kInputTextBox" Label="k  " Grid.Column="1" Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="k_alphaInputTextBox" Label="α" Grid.Column="2"  Grid.Row="0" Text="0.01"></RibbonTextBox>
+                        <RibbonTextBox Name="k_betaInputTextBox" Label="β" Grid.Column="2" Grid.Row="1" Text="0.01"></RibbonTextBox>
+                    </Grid>
+                </RibbonGroup>
+                <RibbonGroup Header="Дослідження">
+                    <Button Content="Провести дослідження" Click="k_DoMain"></Button>
+                    <Button Content="Провести дослідження N разів" Click="k_DoNTimes"></Button>
+                </RibbonGroup>
+                <RibbonGroup Header="Відновлення">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0">м. моментів, θ</Label>
+                        <Label Grid.Column="0" Grid.Row="1">м. макс. правдоподібності, θ</Label>
+                        <RibbonTextBox Name="k_restoreMomentsInputTextBox" Label="" Grid.Column="1"  Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="k_restoreLikehoodInputTextBox" Label="" Grid.Column="1" Grid.Row="1" Text="1"></RibbonTextBox>
+                    </Grid>
+                </RibbonGroup>
             </RibbonTab>
-            <RibbonTab Header="hh2">
-                
+            <RibbonTab Header="Відомий параметр θ">
+                <RibbonGroup Header="">
+                    <RibbonButton Label="Графік щільностей" Click="OpenLastChart">
+                    </RibbonButton>
+                </RibbonGroup>
+                <RibbonGroup Header="Параметри" >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <RibbonTextBox Name="theta_k1InputTextBox" Label="k1" Grid.Column="0"  Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="theta_k2InputTextBox" Label="k2" Grid.Column="0" Grid.Row="1" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="theta_thetaInputTextBox" Label="θ  " Grid.Column="1" Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="theta_alphaInputTextBox" Label="α" Grid.Column="2"  Grid.Row="0" Text="0.01"></RibbonTextBox>
+                        <RibbonTextBox Name="theta_betaInputTextBox" Label="β" Grid.Column="2" Grid.Row="1" Text="0.01"></RibbonTextBox>
+                    </Grid>
+                </RibbonGroup>
+                <RibbonGroup Header="Дослідження">
+                    <Button Content="Провести дослідження"  Click="theta_DoMain"></Button>
+                    <Button Content="Провести дослідження N разів" Click="theta_DoNTimes"></Button>
+                </RibbonGroup>
+                <RibbonGroup Header="Відновлення">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="0" Grid.Row="0">м. моментів, k</Label>
+                        <Label Grid.Column="0" Grid.Row="1">м. макс. правдоподібності, k</Label>
+                        <RibbonTextBox Name="theta_restoreMomentsInputTextBox" Label="" Grid.Column="1"  Grid.Row="0" Text="1"></RibbonTextBox>
+                        <RibbonTextBox Name="theta_restoreLikehoodInputTextBox" Label="" Grid.Column="1" Grid.Row="1" Text="1"></RibbonTextBox>
+                    </Grid>
+                </RibbonGroup>
+            </RibbonTab>
+            <RibbonTab Header="Невідомі обидва параметри">
+                <RibbonGroup Header="File">
+                    <RibbonButton Label="Графік щільностей" Click="OpenLastChart">
+                    </RibbonButton>
+                    <RibbonTextBox></RibbonTextBox>
+                </RibbonGroup>
+                <RibbonGroup Header="Params">
+                    <Label Content="sddsds"></Label>
+                    <RibbonTextBox></RibbonTextBox>
+                    <Label Content="sddsds"></Label>
+                    <RibbonTextBox></RibbonTextBox>
+                </RibbonGroup>
             </RibbonTab>
         </Ribbon>
         <TabControl x:Name="tabControl"   Margin="0,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TabItem Header="Классический анализ">
+            <TabItem Header="Класичний аналіз">
                 <Grid Background="#FFE5E5E5">
                     <TabControl x:Name="tabControl1" HorizontalAlignment="Stretch"  Margin="0,0,0,0" VerticalAlignment="Stretch">
-                        <TabItem Header="Критерий Неймана-Пирсона">
+                        <TabItem Header="Критерій Неймана-Пірсона">
                             <Grid Background="#FFE5E5E5"/>
                         </TabItem>
-                        <TabItem Header="Байесовский критерий">
+                        <TabItem Header="Байесовський критерий">
                             <Grid Background="#FFE5E5E5"/>
                         </TabItem>
                     </TabControl>
                 </Grid>
             </TabItem>
-            <TabItem Header="Последовательный анализ">
+            <TabItem Header="Послідовний аналіз">
                 <Grid Background="#FFE5E5E5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="180"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="button" Content="theta" HorizontalAlignment="Left" Height="34" Margin="61,127,0,0" VerticalAlignment="Top" Width="60" Click="button_Click"/>
-                    <lvc:CartesianChart Series="{Binding SCollection}" LegendLocation="Right" Grid.Column="2">
+                    <TabControl Grid.Column="1">
+                        <TabItem Header="Графічний метод">
+                            <lvc:CartesianChart Series="{Binding SCollection}" LegendLocation="Right" Grid.Column="2">
                         <lvc:CartesianChart.AxisY>
                             <lvc:Axis>
                                 <lvc:Axis.Separator>
@@ -66,6 +164,26 @@
                             </lvc:Axis>
                         </lvc:CartesianChart.AxisX>
                     </lvc:CartesianChart>
+                        </TabItem>
+                        <TabItem Header="Чисельний метод">
+                            <DataGrid Name="ResultsTable">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Спостереження №" Binding="{Binding Path=num}" Width="120" />
+                                    <DataGridTextColumn Header="Спост. значення" Binding="{Binding Path=value}" Width="120" />
+                                    <DataGridHyperlinkColumn Header="Пр. значення" Binding="{Binding Path=trueMargin}" Width="100" />
+                                    <DataGridTextColumn Header="Σ" Binding="{Binding Path=sum}" Width="50" />
+                                    <DataGridHyperlinkColumn Header="Брак. значення" Binding="{Binding Path=falseMargin}" Width="100" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Оперативна характеристика">
+                            
+                        </TabItem>
+                        <TabItem Header="Середній обсяг обчислень">
+                            
+                        </TabItem>
+                    </TabControl>
+                    
                     <TextBox x:Name="textBox" HorizontalAlignment="Left" Height="23" Margin="45,48,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged"/>
                     <TextBox x:Name="textBox_Copy" HorizontalAlignment="Left" Height="23" Margin="45,86,0,0" TextWrapping="Wrap" Text="1.2" VerticalAlignment="Top" Width="120" TextChanged="textBox_Copy_TextChanged"/>
                     <Button x:Name="button_Copy" Content="K" HorizontalAlignment="Left" Height="34" Margin="61,175,0,0" VerticalAlignment="Top" Width="60" Click="checkK_Click"/>
