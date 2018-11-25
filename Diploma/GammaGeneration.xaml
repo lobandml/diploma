@@ -20,7 +20,6 @@
             </Ribbon.ApplicationMenu>
         </Ribbon>
         <Button x:Name="button" Content="Генерировать" HorizontalAlignment="Left" Margin="69,151.6,0,0" Grid.Row="1" VerticalAlignment="Top" Width="112" Height="31" Click="button_Click"/>
-        <Button x:Name="graphButton" Content="График" HorizontalAlignment="Left" Margin="69,188,0,0" Grid.Row="1" VerticalAlignment="Top" Width="112" Height="31" Click="graphButton_Click"/>
         <Label x:Name="label" Content="theta" HorizontalAlignment="Left" Margin="19,8.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 		<Label x:Name="label1" Content="K" HorizontalAlignment="Left" Margin="19,56.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 		<TextBox x:Name="param1tb" HorizontalAlignment="Left" Height="23" Margin="91,8.6,0,0" Grid.Row="1" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="120"/>

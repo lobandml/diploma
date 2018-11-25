@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Diploma"
         mc:Ignorable="d"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        Title="DensComparer" Height="379.443" Width="481.882">
+        Title="Порівняння щільності" Height="379.443" Width="481.882">
     <Grid>
         <lvc:CartesianChart Series="{Binding SCollection}" LegendLocation="Right" Grid.Column="2">
             <lvc:CartesianChart.AxisY>

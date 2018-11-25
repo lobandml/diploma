@@ -86,7 +86,10 @@
       <DependentUpon>DensComparer.xaml</DependentUpon>
     </Compile>
     <Compile Include="DistributionInstance.cs" />
+    <Compile Include="Extentions.cs" />
     <Compile Include="GammaDistribution.cs" />
+    <Compile Include="KnownKParser.cs" />
+    <Compile Include="ResultsTableRow.cs" />
     <Compile Include="SPRT.cs" />
     <Compile Include="XMLOperations.cs" />
     <Page Include="DensComparer.xaml">

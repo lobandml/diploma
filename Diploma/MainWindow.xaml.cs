@@ -36,6 +36,7 @@ namespace Diploma
 			//double dd1 = gd1.Generate();
             var mapper = Mappers.Xy<System.Windows.Point>().X(v => v.X).Y(v => v.Y);
             SCollection = new SeriesCollection(mapper);
+            Bayes_info.Text = Bayes_info.Text.Replace("\\r\\n", "\r\n");
         }
 
         private void OpenGeneratorHandler(object sender, RoutedEventArgs e)
@@ -60,65 +61,20 @@ namespace Diploma
             // test1();
             //test2theta();
         }
-
-        private void test2theta()
+        private void TestKnownBoth_UI(BothUnknownParser data)
         {
-            double alpha = 0.1;
-            double beta = 0.01;
-            double c0;
-            double c1; 
-
-
-            while (SCollection.Count > 0)
-            {
-                SCollection.RemoveAt(SCollection.Count - 1);
-            }
-
-            var topPointsLine = AddNewSeriesCollection("Top", Brushes.Red);
-            var botPointsLine = AddNewSeriesCollection("Bot", Brushes.Blue);
-            var checkingsPointsLine = AddNewSeriesCollection("values", Brushes.Aqua);
-            DataContext = this;
-
-            for (int i = 0; i < currentDis.arr.Count; i++)
-            {
-                List<double> checkedList = currentDis.arr.GetRange(0, i + 1);
-                double likehoodDivision = SPRT.LikehoodKnownTheta(checkedList);
-                //c0 = SPRT.LowMarginKnownTheta(currentDis.DParams["k"] + 0.9, currentDis.DParams["k"], currentDis.DParams["theta"], alpha, beta, i + 1);
-                //c1 = SPRT.TopMarginKnownTheta(currentDis.DParams["k"] + 0.9, currentDis.DParams["k"], currentDis.DParams["theta"], alpha, beta, i + 1);
-                c0 = SPRT.LowMarginKnownTheta(double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture), double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture), currentDis.DParams["theta"], alpha, beta, i + 1);
-                c1 = SPRT.TopMarginKnownTheta(double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture), double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture), currentDis.DParams["theta"], alpha, beta, i + 1);
-
-                topPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c1,3)));
-                botPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c0, 3)));
-                checkingsPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(likehoodDivision, 3)));
-
-                if (likehoodDivision < c0)
-                {
-                    //MessageBox.Show("h0 - " + i.ToString());
-                    //break;
-                }
-
-                if (likehoodDivision > c1)
-                {
-                    //MessageBox.Show("h1 - " + i.ToString());
-                    //break;
-                }
-            }
-        }
-        private void test2K()
-        {
-            double alpha = 0.1;
-            double beta = 0.05;
+            List<ResultsTableRow> resList = new List<ResultsTableRow>();
+            double alpha = data.alpha;
+            double beta = data.beta;
             double c0;
             double c1;
 
+            bool falseIsTop = true;
 
             while (SCollection.Count > 0)
             {
                 SCollection.RemoveAt(SCollection.Count - 1);
-                
             }
-
             var topPointsLine = AddNewSeriesCollection("брак.значення", Brushes.Red);
             var botPointsLine = AddNewSeriesCollection("пр-е значення", Brushes.Blue);
             var checkingsPointsLine = AddNewSeriesCollection("спостереження", Brushes.Purple);
@@ -126,78 +82,155 @@ namespace Diploma
 
             for (int i = 0; i < currentDis.arr.Count; i++)
             {
+                ResultsTableRow resListInstance = new ResultsTableRow();
                 List<double> checkedList = currentDis.arr.GetRange(0, i + 1);
-                double likehoodDivision = SPRT.LikehoodKnownK(checkedList);
-                //c0 = SPRT.LowMarginKnownTheta(currentDis.DParams["k"] + 0.9, currentDis.DParams["k"], currentDis.DParams["theta"], alpha, beta, i + 1);
-                //c1 = SPRT.TopMarginKnownTheta(currentDis.DParams["k"] + 0.9, currentDis.DParams["k"], currentDis.DParams["theta"], alpha, beta, i + 1);
-                c0 = SPRT.LowMarginKnownK(double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture), double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture), currentDis.DParams["k"], alpha, beta, i + 1);
-                c1 = SPRT.TopMarginKnownK(double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture), double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture), currentDis.DParams["k"], alpha, beta, i + 1);
-                //if (c0 > c1)
-               // {
-                 //   var tt = c0;
-                //    c0 = c1;
-               //     c1 = tt;
-                //}
+                double likehoodDivision = SPRT.GammaLikelihood(checkedList, data.k1,data.theta1);
+                likehoodDivision /= SPRT.GammaLikelihood(checkedList, data.k2, data.theta2);
+                c0 = beta / (1 - alpha);
+                c1 = (1 - beta) / alpha;
+                if (c1 < c0) falseIsTop = false;
+                resListInstance.Num = i.ToString();
+                resListInstance.falseMargin = falseIsTop ? c1.GetRoundedString(4) : c0.GetRoundedString(4);
+                resListInstance.TrueMargin = falseIsTop ? c0.GetRoundedString(4) : c1.GetRoundedString(4);
+                resListInstance.Sum = likehoodDivision.GetRoundedString(4);
+                resListInstance.Value = currentDis.arr[i].GetRoundedString(4);
+                resList.Add(resListInstance);
 
                 topPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c1, 3)));
                 botPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c0, 3)));
                 checkingsPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(likehoodDivision, 3)));
 
-                if (likehoodDivision < c0)
+                var checkC0 = falseIsTop ? c0 : c1;
+                var checkC1 = falseIsTop ? c1 : c0;
+                if (likehoodDivision < checkC0)
                 {
-                    //MessageBox.Show("h0 - " + i.ToString());
-                    //break;
+                    string insert = falseIsTop ? "H0" : "H1";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
+                    break;
                 }
-
-                if (likehoodDivision > c1)
+                if (likehoodDivision > checkC1)
                 {
-                    //MessageBox.Show("h1 - " + i.ToString());
-                    //break;
+                    string insert = falseIsTop ? "H1" : "H0";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
+                    break;
                 }
             }
+            ResultsTable.ItemsSource = resList;
         }
-
-        private void test1()
+        private void TestKnownTheta_IU(KnownThetaParser data)
         {
-            double alpha = 0.1;
-            double beta = 0.01;
-            double c0 = beta / (1 - alpha);
-            c0 = Math.Log(c0);
-            double c1 = (1 - beta) / alpha;
-            c1 = Math.Log(c1);
+            List<ResultsTableRow> resList = new List<ResultsTableRow>();
+            double alpha = data.alpha;
+            double beta = data.beta;
+            double c0;
+            double c1;
 
+            bool falseIsTop = true;
+
+            while (SCollection.Count > 0)
+            {
+                SCollection.RemoveAt(SCollection.Count - 1);
+            }
+            var topPointsLine = AddNewSeriesCollection("брак.значення", Brushes.Red);
+            var botPointsLine = AddNewSeriesCollection("пр-е значення", Brushes.Blue);
+            var checkingsPointsLine = AddNewSeriesCollection("спостереження", Brushes.Purple);
+            DataContext = this;
 
             for (int i = 0; i < currentDis.arr.Count; i++)
             {
+                ResultsTableRow resListInstance = new ResultsTableRow();
                 List<double> checkedList = currentDis.arr.GetRange(0, i + 1);
-                double checkedForThe0 = SPRT.GammaLikelihood(checkedList, currentDis.DParams["k"]+0.9, currentDis.DParams["theta"]);
-                double checkedForThe1 = SPRT.GammaLikelihood(checkedList, currentDis.DParams["k"], currentDis.DParams["theta"]);
-                double likehoodDivision = checkedForThe1 / checkedForThe0;
-                likehoodDivision = Math.Log(likehoodDivision);
-                if (likehoodDivision < c0)
+                double likehoodDivision = SPRT.LikehoodKnownTheta(checkedList);
+
+                c0 = SPRT.LowMarginKnownTheta(data.k1, data.k2, data.theta, alpha, beta, i + 1);
+                c1 = SPRT.TopMarginKnownTheta(data.k1, data.k2, data.theta, alpha, beta, i + 1);
+                if (c1 < c0) falseIsTop = false;
+                resListInstance.Num = i.ToString();
+                resListInstance.falseMargin = falseIsTop ? c1.GetRoundedString(4) : c0.GetRoundedString(4);
+                resListInstance.TrueMargin = falseIsTop ? c0.GetRoundedString(4) : c1.GetRoundedString(4);
+                resListInstance.Sum = likehoodDivision.GetRoundedString(4);
+                resListInstance.Value = currentDis.arr[i].GetRoundedString(4);
+                resList.Add(resListInstance);
+
+                topPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c1,3)));
+                botPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c0, 3)));
+                checkingsPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(likehoodDivision, 3)));
+
+                var checkC0 = falseIsTop ? c0 : c1;
+                var checkC1 = falseIsTop ? c1 : c0;
+                if (likehoodDivision < checkC0)
                 {
-                    MessageBox.Show("h0 - " + i.ToString());
+                    string insert = falseIsTop ? "H0" : "H1";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
                     break;
                 }
-
-                if (likehoodDivision > c1)
+                if (likehoodDivision > checkC1)
                 {
-                    MessageBox.Show("h1 - " + i.ToString());
+                    string insert = falseIsTop ? "H1" : "H0";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
                     break;
                 }
             }
+            ResultsTable.ItemsSource = resList;
         }
-
-        private void button_Click(object sender, RoutedEventArgs e)
+        private void TestKnownK_IU(KnownKParser data)
         {
-            //test1();
-            if (currentDis == null)
+            List<ResultsTableRow> resList = new List<ResultsTableRow>();
+            
+            double alpha = data.alpha;
+            double beta = data.beta;
+            double c0;
+            double c1;
+
+            bool falseIsTop = true;
+
+            while (SCollection.Count > 0)
             {
-                MessageBox.Show("Файл подгрузи, а?");
-                return;
+                SCollection.RemoveAt(SCollection.Count - 1);
             }
-            test2theta();
+            var topPointsLine = AddNewSeriesCollection("брак.значення", Brushes.Red);
+            var botPointsLine = AddNewSeriesCollection("пр-е значення", Brushes.Blue);
+            var checkingsPointsLine = AddNewSeriesCollection("спостереження", Brushes.Purple);
+            DataContext = this;
+
+            for (int i = 0; i < currentDis.arr.Count; i++)
+            {
+                ResultsTableRow resListInstance = new ResultsTableRow();
+                List<double> checkedList = currentDis.arr.GetRange(0, i + 1);
+                double likehoodDivision = SPRT.LikehoodKnownK(checkedList);
+                c0 = SPRT.LowMarginKnownK(data.theta1, data.theta2, data.k, alpha, beta, i + 1);
+                c1 = SPRT.TopMarginKnownK(data.theta1, data.theta2, data.k, alpha, beta, i + 1);
+                if (c1 < c0) falseIsTop = false;
+                resListInstance.Num = i.ToString();
+                resListInstance.falseMargin = falseIsTop ? c1.GetRoundedString(4) : c0.GetRoundedString(4);
+                resListInstance.TrueMargin = falseIsTop ? c0.GetRoundedString(4) : c1.GetRoundedString(4);
+                resListInstance.Sum = likehoodDivision.GetRoundedString(4);
+                resListInstance.Value = currentDis.arr[i].GetRoundedString(4);
+                resList.Add(resListInstance);
+                
+
+                topPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c1, 3)));
+                botPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(c0, 3)));
+                checkingsPointsLine.Values.Add(new System.Windows.Point(i, Math.Round(likehoodDivision, 3)));
+
+                var checkC0 = falseIsTop ? c0 : c1;
+                var checkC1 = falseIsTop ? c1 : c0;
+                if (likehoodDivision < checkC0)
+                {
+                    string insert = falseIsTop ? "H0" : "H1";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
+                    break;
+                }
+                if (likehoodDivision > checkC1)
+                {
+                    string insert = falseIsTop ? "H1" : "H0";
+                    MessageBox.Show("Гіпотеза " + insert + "\r\n на кроці " + (i + 1).ToString());
+                    break;
+                }
+            }
+            ResultsTable.ItemsSource = resList;
         }
+
         public LineSeries AddNewSeriesCollection(string title, System.Windows.Media.Brush color)
         {
             var nls = new LineSeries
@@ -214,36 +247,6 @@ namespace Diploma
             return nls;
         }
 
-        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void textBox_Copy_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void checkK_Click(object sender, RoutedEventArgs e)
-        {
-            test2K();
-        }
-
-        private void OpenLastChart(object sender, RoutedEventArgs e)
-        {
-            double par1 = double.Parse(textBox.Text, System.Globalization.CultureInfo.InvariantCulture);
-            double par2 = double.Parse(textBox_Copy.Text, System.Globalization.CultureInfo.InvariantCulture);
-            double setupK = currentDis.DParams["k"];
-            List<System.Windows.Point> lp1 = new List<System.Windows.Point>();
-            List<System.Windows.Point> lp2 = new List<System.Windows.Point>();
-            for (double i = 0; i < 5; i += 0.05)
-            {
-               lp1.Add(new System.Windows.Point(i, GammaDistribution.calcDens(setupK, par1, i)));
-               lp2.Add(new System.Windows.Point(i, GammaDistribution.calcDens(setupK, par2, i)));
-            }
-            DensComparer dc = new DensComparer("1", lp1, "2", lp2);
-            dc.Show();
-        }
 
         private void k_DoNTimes(object sender, RoutedEventArgs e)
         {
@@ -257,12 +260,118 @@ namespace Diploma
 
         private void theta_DoMain(object sender, RoutedEventArgs e)
         {
-
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            KnownThetaParser data = new KnownThetaParser();
+            data.Parse(this);
+            TestKnownTheta_IU(data);
         }
 
         private void k_DoMain(object sender, RoutedEventArgs e)
         {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            KnownKParser data = new KnownKParser();
+            data.Parse(this);
+            TestKnownK_IU(data);
+        }
 
+
+        private void both_DoMain(object sender, RoutedEventArgs e)
+        {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            BothUnknownParser data = new BothUnknownParser();
+            data.Parse(this);
+            TestKnownBoth_UI(data);
+        }
+
+        private void both_DoNTimes(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowGDInfo(object sender, RoutedEventArgs e)
+        {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            string results = string.Empty;
+            results += "Об`єм вибірки: " + currentDis.arr.Count.ToString();
+            if(currentDis.DParams.ContainsKey("k")) results += "\r\n k = " + currentDis.DParams["k"].ToString();
+            if (currentDis.DParams.ContainsKey("theta")) results += "\r\n theta = " + currentDis.DParams["k"].ToString();
+            MessageBox.Show(results);
+        }
+
+        private void OpenLastChart_both(object sender, RoutedEventArgs e)
+        {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            BothUnknownParser data = new BothUnknownParser();
+            data.Parse(this);
+            List<System.Windows.Point> lp1 = new List<System.Windows.Point>();
+            List<System.Windows.Point> lp2 = new List<System.Windows.Point>();
+            for (double i = 0; i < 20; i += 0.1)
+            {
+                lp1.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k1, data.theta1, i)));
+                lp2.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k2, data.theta2, i)));
+            }
+            DensComparer dc = new DensComparer("H0", lp1, "H1", lp2);
+            dc.Show();
+        }
+
+        private void OpenLastChart_theta(object sender, RoutedEventArgs e)
+        {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            KnownThetaParser data = new KnownThetaParser();
+            data.Parse(this);
+            List<System.Windows.Point> lp1 = new List<System.Windows.Point>();
+            List<System.Windows.Point> lp2 = new List<System.Windows.Point>();
+            for (double i = 0; i < 20; i += 0.1)
+            {
+                lp1.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k1, data.theta, i)));
+                lp2.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k2, data.theta, i)));
+            }
+            DensComparer dc = new DensComparer("H0", lp1, "H1", lp2);
+            dc.Show();
+
+        }
+        private void OpenLastChart_k(object sender, RoutedEventArgs e)
+        {
+            if (currentDis == null)
+            {
+                MessageBox.Show("Завантажте файл");
+                return;
+            }
+            KnownKParser data = new KnownKParser();
+            data.Parse(this);
+            List<System.Windows.Point> lp1 = new List<System.Windows.Point>();
+            List<System.Windows.Point> lp2 = new List<System.Windows.Point>();
+            for (double i = 0; i < 20; i += 0.1)
+            {
+                lp1.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k, data.theta1, i)));
+                lp2.Add(new System.Windows.Point(i, GammaDistribution.calcDens(data.k, data.theta2, i)));
+            }
+            DensComparer dc = new DensComparer("H0", lp1, "H1", lp2);
+            dc.Show();
         }
     }
 }

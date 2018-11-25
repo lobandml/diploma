@@ -41,11 +41,12 @@ namespace Diploma
 			Accord.Statistics.Distributions.Univariate.GammaDistribution gd1 = new Accord.Statistics.Distributions.Univariate.GammaDistribution(theta_param, k);
 			double[] dd1 = gd1.Generate(count);
 			currGammaArray = dd1;
-			UpdateList(currentDis);
+			
             DistributionInstance dis = new DistributionInstance(currGammaArray);
             dis.DParams.Add("theta", theta_param);
             dis.DParams.Add("k", k);
             currentDis = dis;
+            UpdateList(currentDis);
         }
 		private void UpdateList(DistributionInstance input)
 		{
@@ -92,9 +93,6 @@ namespace Diploma
             OpenGenerated();
         }
 
-        private void graphButton_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
     }
 }
